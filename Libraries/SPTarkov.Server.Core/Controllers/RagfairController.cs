@@ -774,6 +774,12 @@ public class RagfairController(
         // Get average of items quality+children
         var qualityMultiplier = itemHelper.GetItemQualityModifierForItems(offer.Items, true);
 
+        // Player may be listing a custom weapon with non-standard mods, calculate the average price of the listed weapons' mods
+        if (itemHelper.IsOfBaseclass(offerRootItem.Template, BaseClasses.WEAPON))
+        {
+            averageOfferPriceSingleItem = ragfairPriceService.GetPresetPriceByChildren(offer.Items);
+        }
+
         // Check for and apply item price modifer if it exists in config
         if (RagfairConfig.Dynamic.ItemPriceMultiplier.TryGetValue(offerRootItem.Template, out var itemPriceModifer))
         {
@@ -789,6 +795,7 @@ public class RagfairController(
             playerListedPriceInRub,
             qualityMultiplier
         );
+
         offer.SellResults = ragfairSellHelper.RollForSale(sellChancePercent, (int)stackCountTotal);
 
         // Subtract flea market fee from stash
