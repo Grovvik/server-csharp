@@ -13980,21 +13980,21 @@
         }
       ]
     },
-	"summon": {
-		"default": [
-		{
+    "summon": {
+      "default": [
+        {
           "AlwaysEnemies": [],
-		  "AlwaysFriends": [],
+          "AlwaysFriends": [],
           "BearPlayerBehaviour": "AlwaysFriends",
           "BotRole": "peacefullZryachiyEvent",
           "ChancedEnemies": [],
           "SavageEnemyChance": 0,
-		  "BearEnemyChance": 0,
-		  "UsecEnemyChance": 0,
+          "BearEnemyChance": 0,
+          "UsecEnemyChance": 0,
           "SavagePlayerBehaviour": "AlwaysFriends",
           "UsecPlayerBehaviour": "AlwaysFriends"
         }
-		]
-	}
+      ]
+    }
   }
 }
