@@ -781,23 +781,23 @@ public class HideoutController(
         ItemEventRouterResponse output
     )
     {
-        // Validate that we have a matching production
-        var productionDict = pmcData.Hideout.Production;
+        // Find craft/production in player profile
         MongoId? prodId = null;
-        foreach (var (productionId, production) in productionDict)
+        foreach (var (productionId, productionInProfile) in pmcData.Hideout.Production)
         {
-            // Skip undefined production objects
-            if (production is null)
+            // Skip undefined production objects caused by continious crafts
+            if (productionInProfile is null)
             {
                 continue;
             }
 
-            if (production.RecipeId != request.RecipeId)
+            // Not craft we're looking for
+            if (productionInProfile.RecipeId != request.RecipeId)
             {
                 continue;
             }
 
-            // Production or ScavCase
+            // Could be Production or ScavCase
             prodId = productionId; // Set to objects key
             break;
         }
@@ -817,7 +817,6 @@ public class HideoutController(
 
         // Variables for management of skill
         var craftingExpAmount = 0;
-
         var counterHoursCrafting = GetCustomSptHoursCraftingTaskConditionCounter(pmcData, recipe);
         var totalCraftingHours = counterHoursCrafting.Value;
 
