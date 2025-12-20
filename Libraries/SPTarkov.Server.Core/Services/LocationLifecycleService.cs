@@ -128,12 +128,12 @@ public class LocationLifecycleService(
                 {
                     location.Transits = location.Transits.Where(transit => matchingTransitWhitelist.Contains(transit.Id.Value)).ToList();
                 }
-            }
 
-            foreach (var transits in location.Transits)
-            {
-                transits.ActivateAfterSeconds = 300;
-                transits.Events = true;
+                foreach (var transits in location.Transits)
+                {
+                    transits.ActivateAfterSeconds = 300;
+                    transits.Events = true;
+                }
             }
         }
 
