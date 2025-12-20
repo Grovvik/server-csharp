@@ -138,7 +138,7 @@ public class LocationLifecycleService(
                     // To enable certain stuff for the Khorovod event
                     if (matchingTransitWhitelist.Contains(transits.Id.Value))
                     {
-                        transits.ActivateAfterSeconds = 20;
+                        transits.ActivateAfterSeconds = 300;
                         transits.Events = true;
                     }
                     else
