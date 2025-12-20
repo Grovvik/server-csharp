@@ -519,7 +519,33 @@ public class SeasonalEventService(
             EnableRunnansEvent(databaseService.GetGlobals());
         }
 
+        if (eventType.Settings?.EnableKhorvodEvent ?? false)
+        {
+            AdjustTransitsToKhorvodEvent();
+        }
+
         ChangeBtrToTarColaSkin();
+    }
+
+    protected void AdjustTransitsToKhorvodEvent()
+    {
+        var locations = databaseService.GetLocations().GetDictionary();
+
+        foreach (var (locationName, locationBase) in locations)
+        {
+            if (LocationConfig.NonMaps.Contains(locationName))
+            {
+                continue;
+            }
+
+            var matchingTransitWhitelist = SeasonalEventConfig.KhorvodEventTransitWhitelist.GetValueOrDefault(locationBase.Base.Id, null);
+            if (matchingTransitWhitelist is null )
+            {
+                continue;
+            }
+
+            locationBase.Base.Transits = locationBase.Base.Transits.Where(t => matchingTransitWhitelist.Contains(t.Id.Value)).ToList();
+        }
     }
 
     protected void EnableRunnansEvent(Globals globals)

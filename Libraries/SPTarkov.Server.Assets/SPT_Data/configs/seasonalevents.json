@@ -9930,7 +9930,8 @@
         "adjustBotAppearances": true,
         "enableChristmasHideout": true,
         "enableSanta": true,
-        "enableRundansEvent": true
+        "enableRundansEvent": true,
+        "enableKhorvodEvent": true
       },
       "startDay": "13",
       "startMonth": "12",
@@ -9944,6 +9945,7 @@
       "settings": {
         "adjustBotAppearances": true,
         "enableChristmasHideout": true,
+        "enableKhorvodEvent": true,
         "enableSanta": true
       },
       "startDay": "1",
@@ -13997,5 +13999,8 @@
         }
       ]
     }
+  },
+  "khorvodEventTransitWhitelist": {
+	  "bigmap": [9]
   }
 }
