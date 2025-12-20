@@ -113,11 +113,12 @@ public class LocationLifecycleService(
         HideoutConfig.RunIntervalSeconds = HideoutConfig.RunIntervalValues.InRaid;
 
         var location = GenerateLocationAndLoot(sessionId, request.Location, !request.ShouldSkipLootGeneration ?? true);
+        var isRundansActive = databaseService.GetGlobals().Configuration.RunddansSettings.Active;
 
-        foreach (var transits in location.Transits)
+        // Handle Runddans / Khorovod event
+        if (transitionType == TransitionType.EVENT && isRundansActive)
         {
-            // Handle Runddans / Khorovod event
-            if (transitionType == TransitionType.EVENT && databaseService.GetGlobals().Configuration.RunddansSettings.Active)
+            foreach (var transits in location.Transits ?? [])
             {
                 transits.ActivateAfterSeconds = 300;
                 transits.Events = true;
@@ -134,7 +135,7 @@ public class LocationLifecycleService(
             TransitionType = transitionType,
             Transition = new Transition
             {
-                TransitionType = request.TransitionType,
+                TransitionType = transitionType,
                 TransitionRaidId = new MongoId(),
                 TransitionCount = 0,
                 VisitedLocations = [],
