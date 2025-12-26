@@ -519,6 +519,30 @@ public class SeasonalEventService(
             EnableRunnansEvent(databaseService.GetGlobals());
         }
 
+        var locations = databaseService.GetLocations().GetDictionary();
+
+        foreach (var location in locations)
+        {
+            if (location.Value.StaticLoot is not null)
+            {
+                location.Value.StaticLoot.AddTransformer(staticlootData =>
+                {
+                    if (staticlootData is null)
+                    {
+                        return staticlootData;
+                    }
+
+                    //67614e3a6a90e4f10b0b140d is the christmas sleigh
+                    if (staticlootData.TryGetValue("67614e3a6a90e4f10b0b140d", out var sleighContainer))
+                    {
+                        sleighContainer.ItemCountDistribution = sleighContainer.ItemCountDistribution.Where(d => d.Count != 0).ToList();
+                    }
+
+                    return staticlootData;
+                });
+            }
+        }
+
         ChangeBtrToTarColaSkin();
     }
 
